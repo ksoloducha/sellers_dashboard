@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import React from "react"
+import Container from 'react-bootstrap/Container'
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "./themes/GlobalStyle";
+import {connect} from "react-redux";
 import './App.css';
+import Header from "./components/header/Header";
+import Orders from "./components/orders/Orders";
+import SellingChart from "./components/selling_chart/SellingChart";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = (props) => {
+
+  return(
+    <ThemeProvider theme={props.themeVariables}>
+      <>
+      <GlobalStyles/>
+      <Header />
+      <Container className="main-container">
+        <Orders/>
+        <SellingChart />
+      </Container>
+      </>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return{
+      theme: state.currentTheme,
+      themeVariables: state.currentThemeVariables
+  }
+}
+
+export default connect(mapStateToProps) (App)

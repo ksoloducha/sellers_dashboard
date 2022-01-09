@@ -1,0 +1,24 @@
+.margin-row{
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.border-between-buttons{
+    display: flex;
+}
+
+.order{
+    border-bottom-style: groove;
+    border-bottom-width: 1px;
+}
+
+.order-status-icon{
+    height: 25px;
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2%;
+}
