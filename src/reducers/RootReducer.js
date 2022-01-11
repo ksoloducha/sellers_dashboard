@@ -41,7 +41,7 @@ const rootReducer= (state=initState, action) => {
             return{
                 ...state,
                 filterSent: action.filterSent,
-                orders: updateOrders(state.filterPaid, action.filterSent, state.filterReturned, state.originalOrders),
+                orders: updateOrders(state.filterPaid, action.filterSent, state.filterReturned, state.originalOrders,),
                 activePage: 1
             }
         case 'SWITCH_RETURNED':
@@ -79,13 +79,13 @@ const rootReducer= (state=initState, action) => {
 
 const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) => {
     if(!filterPaid && !filterSent && !filterReturned){
-        let id = 0
+        let id = 1
         return originalOrders.filter((o) => {
-            o.orderId = id++;
+            o.id = id++;
             return o;
         })
     } else{
-        let id = 0
+        let id = 1
         return originalOrders.filter((o) => {
             let create = false;
             let filtered = false;
@@ -101,7 +101,7 @@ const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) =>
                 create = create === false && filtered === true ? false : o.returned;
             }
             if(create){
-                o.orderId = id++;
+                o.id = id++;
                 return o;
             }
         })

@@ -17,16 +17,14 @@ const Order = (props) => {
     return(
         <div className="order">
             <Stack direction='horizontal' gap={5}>
-                <h4>{props.orderId}</h4>
+                <h4>{props.id}</h4>
                 <Stack direction='horizontal' gap={5}>
                     <Stack direction='vertical' gap={3}>
                         <h6>{t("price")}:</h6>
-                        <h6>{t("address")}:</h6>
                         <h6>{t("date")}:</h6>
                     </Stack>
                     <Stack direction='vertical' gap={3}>
                         <a>{props.price}</a>
-                        <a>{props.address}</a>
                         <a>{props.date}</a>
                     </Stack>
                         

@@ -1,113 +1,84 @@
-export const Orders =
-{
+export const Orders = {
     ordersList: [
         {
-            "orderId": "1",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "1",
+            "itemName": "product1",
+            "numberOfItems": "2",
+            "price": "150.99",
+            "date": "2022-01-10",
             "paid": true,
             "sent": true,
             "returned": false
         },
         {
-            "orderId": "2",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "2",
+            "itemName": "product2",
+            "numberOfItems": "5",
+            "price": "30.50",
+            "date": "2022-01-03",
             "paid": true,
             "sent": true,
             "returned": false
         },
         {
-            "orderId": "3",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
-            "paid": true,
-            "sent": true,
-            "returned": false
-        },
-        {
-            "orderId": "4",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "3",
+            "itemName": "product6",
+            "numberOfItems": "8",
+            "price": "25.49",
+            "date": "2022-01-01",
             "paid": true,
             "sent": false,
             "returned": false
         },
-        {
-            "orderId": "5",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+        {            
+            "id": "4",
+            "itemName": "product4",
+            "numberOfItems": "3",
+            "price": "200.00",
+            "date": "2022-01-07",
             "paid": true,
             "sent": false,
             "returned": false
         },
         {
-            "orderId": "6",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "5",
+            "itemName": "product2",
+            "numberOfItems": "1",
+            "price": "130.50",
+            "date": "2022-01-09",
             "paid": true,
             "sent": false,
             "returned": false
         },
         {
-            "orderId": "7",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
-            "paid": false,
-            "sent": false,
-            "returned": false
-        },
-        {
-            "orderId": "8",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
-            "paid": false,
-            "sent": false,
-            "returned": false
-        },
-        {
-            "orderId": "9",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
-            "paid": false,
-            "sent": false,
-            "returned": false
-        },
-        {
-            "orderId": "10",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
-            "paid": false,
-            "sent": false,
-            "returned": false
-        },
-        {
-            "orderId": "11",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "6",
+            "itemName": "product3",
+            "numberOfItems": "6",
+            "price": "89.90",
+            "date": "2022-01-04",
             "paid": true,
             "sent": true,
             "returned": true
         },
         {
-            "orderId": "12",
-            "price": "1234",
-            "address": "Address",
-            "date": "1988-12-10",
+            "id": "7",
+            "itemName": "product4",
+            "numberOfItems": "4",
+            "price": "200.00",
+            "date": "2022-01-05",
             "paid": true,
             "sent": true,
             "returned": true
-        }
+        },
+        {
+            "id": "8",
+            "itemName": "product5",
+            "numberOfItems": "8",
+            "price": "111.50",
+            "date": "2022-01-11",
+            "paid": false,
+            "sent": false,
+            "returned": false
+        },
     ]
 }
