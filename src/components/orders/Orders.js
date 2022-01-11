@@ -66,14 +66,13 @@ const Orders = (props) => {
                 className='styled-container'
             >
                {props.ordersList
-                .filter((o) => o.orderId > (props.activePage - 1) * 5  && o.orderId <= (props.activePage) * 5)
+                .filter((o) => o.id > (props.activePage - 1) * 5  && o.id <= (props.activePage) * 5)
                 .map((o) => {
                     return (
                         <Order 
-                            key={o.orderId}
-                            orderId={o.orderId}
+                            key={o.id}
+                            id={o.id}
                             price={o.price}
-                            address={o.address}
                             date={o.date}
                             paid={o.paid}
                             sent={o.sent}
