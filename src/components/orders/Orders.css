@@ -1,8 +1,3 @@
-.margin-row{
-    margin-bottom: 5%;
-    margin-top: 5%;
-}
-
 .border-between-buttons{
     display: flex;
 }
@@ -21,4 +16,10 @@
     align-items: center;
     justify-content: center;
     margin-top: 2%;
+}
+
+@media screen and (max-width: 992px) {
+    .hide-when-small-screen{
+        display: none !important;
+    }
 }

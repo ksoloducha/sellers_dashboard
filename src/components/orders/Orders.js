@@ -31,7 +31,7 @@ const Orders = (props) => {
 
     return (
         <div>
-            <h2 id='orders'>{t("orders")}</h2>
+            <h2 id='orders' className='margin-row'>{t("orders")}</h2>
             <Stack direction="horizontal" gap={4}>
                 <h5 className='margin-row'>{t("filters")}:</h5>
                 <Button 
