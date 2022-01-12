@@ -74,6 +74,7 @@ const Orders = (props) => {
                             id={o.id}
                             price={o.price}
                             date={o.date}
+                            time={o.time}
                             paid={o.paid}
                             sent={o.sent}
                             returned={o.returned}
