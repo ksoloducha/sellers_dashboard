@@ -6,7 +6,7 @@ export const Orders = {
             "numberOfItems": "2",
             "price": "150.99",
             "date": "2022-01-10",
-            "time": "12:29:05 PM",
+            "time": "12:29:05",
             "paid": true,
             "sent": true,
             "returned": false
@@ -17,7 +17,7 @@ export const Orders = {
             "numberOfItems": "5",
             "price": "30.50",
             "date": "2022-01-03",
-            "time": "01:12:57 PM",
+            "time": "13:12:57",
             "paid": true,
             "sent": true,
             "returned": false
@@ -28,7 +28,7 @@ export const Orders = {
             "numberOfItems": "8",
             "price": "25.49",
             "date": "2022-01-01",
-            "time": "10:12:25 AM",
+            "time": "10:12:25",
             "paid": true,
             "sent": false,
             "returned": false
@@ -39,7 +39,7 @@ export const Orders = {
             "numberOfItems": "3",
             "price": "200.00",
             "date": "2022-01-07",
-            "time": "06:45:56 PM",
+            "time": "16:45:56",
             "paid": true,
             "sent": false,
             "returned": false
@@ -50,7 +50,7 @@ export const Orders = {
             "numberOfItems": "1",
             "price": "130.50",
             "date": "2022-01-09",
-            "time": "08:54:32 PM",
+            "time": "08:54:32",
             "paid": true,
             "sent": false,
             "returned": false
@@ -61,7 +61,7 @@ export const Orders = {
             "numberOfItems": "6",
             "price": "89.90",
             "date": "2022-01-04",
-            "time": "05:32:54 PM",
+            "time": "15:32:54",
             "paid": true,
             "sent": true,
             "returned": true
@@ -72,7 +72,7 @@ export const Orders = {
             "numberOfItems": "4",
             "price": "200.00",
             "date": "2022-01-05",
-            "time": "11:21:50 AM",
+            "time": "11:21:50",
             "paid": true,
             "sent": true,
             "returned": true
@@ -83,7 +83,40 @@ export const Orders = {
             "numberOfItems": "8",
             "price": "111.50",
             "date": "2022-01-11",
-            "time": "12:45:08 PM",
+            "time": "12:45:08",
+            "paid": false,
+            "sent": false,
+            "returned": false
+        },
+        {
+            "id": "9",
+            "itemName": "product5",
+            "numberOfItems": "1",
+            "price": "111.50",
+            "date": "2022-01-12",
+            "time": "12:45:08",
+            "paid": false,
+            "sent": false,
+            "returned": false
+        },
+        {
+            "id": "10",
+            "itemName": "product1",
+            "numberOfItems": "6",
+            "price": "150.99",
+            "date": "2022-01-11",
+            "time": "12:45:08",
+            "paid": false,
+            "sent": false,
+            "returned": false
+        },
+        {
+            "id": "11",
+            "itemName": "product4",
+            "numberOfItems": "2",
+            "price": "200.00",
+            "date": "2022-01-12",
+            "time": "12:45:08",
             "paid": false,
             "sent": false,
             "returned": false
