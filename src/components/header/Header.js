@@ -22,6 +22,10 @@ const Header = (props) => {
         props.switchTheme(theme)
     }
 
+    const handleUserChange = (user) => {
+        props.switchUser(user);
+    }
+
     return(
         <Navbar 
             bg = {props.themeVariables.navbarBg}
@@ -58,8 +62,25 @@ const Header = (props) => {
                     onClick={handleThemeChange}
                 />
                 <Navbar.Text>
-                    {t("hello")} <a>Robert</a>!
+                    {t("hello")}!
                 </Navbar.Text>
+                <NavDropdown 
+                    title={props.currentUser} 
+                    id="basic-nav-dropdown"
+                    menuVariant = {props.themeVariables.navbarBg}
+                >
+                    <NavDropdown.Item onClick={() => handleUserChange('Robert')}>
+                        Robert
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={() => handleUserChange('Kasia')}>
+                        Kasia
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={() => handleUserChange('Czarek')}>
+                        Czarek
+                    </NavDropdown.Item>
+                </NavDropdown>
             </Navbar.Collapse>
         </Navbar>
     )
@@ -69,13 +90,15 @@ const mapStateToProps = (state) => {
     return{
         theme: state.currentTheme,
         themeVariables: state.currentThemeVariables,
-        ordersRef: state.ordersRef
-    }
+        ordersRef: state.ordersRef,
+        currentUser: state.currentUser
+   }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        switchTheme: (theme) => { dispatch({type: 'SWITCH_THEME', theme: theme})}
+        switchTheme: (theme) => { dispatch({type: 'SWITCH_THEME', theme: theme})},
+        switchUser: (user) => {dispatch({type: 'SWITCH_USER', user: user})}
     }
 }
 

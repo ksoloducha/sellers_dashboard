@@ -9,8 +9,9 @@ const initState = {
         'light': lightTheme,
         'dark': darkTheme
     },
-    originalOrders: Orders.ordersList,
-    orders: Orders.ordersList,
+    currentUser: "Robert",
+    originalOrders: Orders("Robert"),
+    orders: Orders("Robert"),
     filterPaid: false,
     fiterSent: false,
     filterReturned: false,
@@ -57,7 +58,7 @@ const rootReducer= (state=initState, action) => {
                 filterPaid: false,
                 filterSent: false,
                 filterReturned: false,
-                orders: state.originalOrders,
+                orders: updateOrders(state.filterPaid, state.filterSent, action.filterReturned, state.originalOrders),
                 activePage: 1
             }
         case 'SET_ORDERS_REF':
@@ -69,6 +70,17 @@ const rootReducer= (state=initState, action) => {
             return{
                 ...state,
                 activePage: action.activePage
+            }
+        case 'SWITCH_USER':
+            return{
+                ...state,
+                currentUser: action.user,
+                originalOrders: Orders(action.user),
+                orders: updateOrders(state.filterPaid, state.filterSent, action.filterReturned, state.originalOrders),
+                filterPaid: false,
+                filterSent: false,
+                filterReturned: false,
+                activePage: 1
             }
         default:
             return{
