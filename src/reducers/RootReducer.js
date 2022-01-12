@@ -19,7 +19,8 @@ const initState = {
     chartDataMeasure: "earnings",
     chartTimePeriod: "currentWeek",
     chartType: "bar",
-    extraDataSeries: false
+    extraDataSeries: false,
+    chartData: initChartData(Orders.ordersList)
 }
 
 const rootReducer= (state=initState, action) => {
@@ -111,6 +112,112 @@ const rootReducer= (state=initState, action) => {
                 ...state
             }
     }
+}
+
+function getDates(){
+    let now = new Date()
+    let d = new Date()
+    let day = now.getDay()
+    let diff = now.getDate() - day + (day === 0 ? -6 : 1)
+    let first = new Date(d.setDate(diff))
+    first.setDate(first.getDate() - 21)
+
+    let dates = []
+    while(first <= now){
+        dates.push({
+            "time": first.toISOString().split('T')[0],
+            "amount": 0
+        })
+        first.setDate(first.getDate() + 1)
+    }
+    return dates
+}
+
+function getHours(){
+    let hours = []
+    for(let i = 0; i < 24; i++){
+        hours.push({
+            "time": i < 10 ? '0' + i : i.toString(),
+            "amount": 0
+        })
+    }
+    return hours
+}
+
+function initChartData(orders){
+
+    let data = {
+        data_byDays: {
+            earnings: [],
+            numberOfSoldItems: []
+        },
+        data_byHours: {
+            earnings_yesterday: [],
+            earnings_today: [],
+            numberOfSoldItems_yesterday: [],
+            numberOfSoldItems_today: []
+        }
+    }
+
+    data.data_byDays.earnings = getDates()
+    data.data_byDays.numberOfSoldItems = getDates()
+    data.data_byHours.earnings_yesterday = getHours()
+    data.data_byHours.earnings_today = getHours()
+    data.data_byHours.numberOfSoldItems_yesterday = getHours()
+    data.data_byHours.numberOfSoldItems_today = getHours()
+
+    let today = new Date()
+    let yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    orders.map((order) => {
+        let date = new Date(order.date)
+        let day = date.toISOString().split('T')[0]
+        let hour = order.time.split(":")[0]
+        let n = order.numberOfItems
+        let moneyEarned = n * order.price
+
+        data.data_byDays.earnings.find((dict) => {
+            if(dict["time"] === day){
+                dict["amount"] += moneyEarned;
+                return;
+            }
+        })
+        data.data_byDays.numberOfSoldItems.find((dict) => {
+            if(dict["time"] === day){
+                dict["amount"] += n;
+                return;
+            }
+        })
+        if(date.getDate() === yesterday.getDate()){
+            data.data_byHours.earnings_yesterday.find((dict) => {
+                if(dict["time"] === hour){
+                    dict["amount"] += moneyEarned;
+                    return;
+                }
+            })
+            data.data_byHours.numberOfSoldItems_yesterday.find((dict) => {
+                if(dict["time"] === hour){
+                    dict["amount"] += n;
+                    return;
+                }
+            })
+        } else if(date.getDate() === today.getDate()){
+            data.data_byHours.earnings_today.find((dict) => {
+                if(dict["time"] === hour){
+                    dict["amount"] += moneyEarned;
+                    return;
+                }
+            })
+            data.data_byHours.numberOfSoldItems_today.find((dict) => {
+                if(dict["time"] === hour){
+                    dict["amount"] += n;
+                    return;
+                }
+            })
+        }
+    })
+    return data
 }
 
 const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) => {
