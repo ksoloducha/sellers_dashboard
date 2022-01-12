@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import "../../i18n/i18n";
 import {connect} from "react-redux";
 import Stack from 'react-bootstrap/Stack';
-import Navbar from 'react-bootstrap/Navbar';
 import './Orders.css'
 import paid from '../../images/paid.png'
 import sent_light from '../../images/sent_light.png'
@@ -59,10 +58,12 @@ const Order = (props) => {
                         <Stack direction='vertical' className='hide-when-extra-small-screen' gap={3}>
                             <h6>{t("price")}:</h6>
                             <h6>{t("date")}:</h6>
+                            <h6>{t("time")}:</h6>
                         </Stack>
                         <Stack direction='vertical' gap={3}>
                             <a>{props.price}</a>
                             <a>{props.date}</a>
+                            <a>{props.time}</a>
                         </Stack>
                         {icons}                    
                 </Stack>

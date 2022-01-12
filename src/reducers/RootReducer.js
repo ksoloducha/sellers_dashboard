@@ -14,7 +14,11 @@ const initState = {
     filterPaid: false,
     fiterSent: false,
     filterReturned: false,
-    activePage: 1
+    activePage: 1,
+    chartDataMeasure: "earnings",
+    chartTimePeriod: "currentWeek",
+    chartType: "bar",
+    extraDataSeries: false
 }
 
 const rootReducer= (state=initState, action) => {
@@ -57,7 +61,7 @@ const rootReducer= (state=initState, action) => {
                 filterPaid: false,
                 filterSent: false,
                 filterReturned: false,
-                orders: state.originalOrders,
+                orders: updateOrders(false, false, false, state.originalOrders),
                 activePage: 1
             }
         case 'SET_ORDERS_REF':
@@ -69,6 +73,26 @@ const rootReducer= (state=initState, action) => {
             return{
                 ...state,
                 activePage: action.activePage
+            }
+        case 'SWITCH_CHART_DATA_MEASURE':
+            return{
+                ...state,
+                chartDataMeasure: action.dataMeasure
+            }
+        case 'CHENGE_CHART_TIME_PERIOD':
+            return{
+                ...state,
+                chartTimePeriod: action.timePeriod
+            }
+        case 'SWITCH_CHART_TYPE':
+            return{
+                ...state,
+                chartType: action.chartType
+            }
+        case 'SWITCH_EXTRA_DATA_SERIES_VISIBILITY':
+            return{
+                ...state,
+                extraDataSeries: action.extraDataSeries
             }
         default:
             return{

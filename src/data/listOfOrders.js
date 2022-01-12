@@ -6,6 +6,7 @@ export const Orders = {
             "numberOfItems": "2",
             "price": "150.99",
             "date": "2022-01-10",
+            "time": "12:29:05 PM",
             "paid": true,
             "sent": true,
             "returned": false
@@ -16,6 +17,7 @@ export const Orders = {
             "numberOfItems": "5",
             "price": "30.50",
             "date": "2022-01-03",
+            "time": "01:12:57 PM",
             "paid": true,
             "sent": true,
             "returned": false
@@ -26,6 +28,7 @@ export const Orders = {
             "numberOfItems": "8",
             "price": "25.49",
             "date": "2022-01-01",
+            "time": "10:12:25 AM",
             "paid": true,
             "sent": false,
             "returned": false
@@ -36,6 +39,7 @@ export const Orders = {
             "numberOfItems": "3",
             "price": "200.00",
             "date": "2022-01-07",
+            "time": "06:45:56 PM",
             "paid": true,
             "sent": false,
             "returned": false
@@ -46,6 +50,7 @@ export const Orders = {
             "numberOfItems": "1",
             "price": "130.50",
             "date": "2022-01-09",
+            "time": "08:54:32 PM",
             "paid": true,
             "sent": false,
             "returned": false
@@ -56,6 +61,7 @@ export const Orders = {
             "numberOfItems": "6",
             "price": "89.90",
             "date": "2022-01-04",
+            "time": "05:32:54 PM",
             "paid": true,
             "sent": true,
             "returned": true
@@ -66,6 +72,7 @@ export const Orders = {
             "numberOfItems": "4",
             "price": "200.00",
             "date": "2022-01-05",
+            "time": "11:21:50 AM",
             "paid": true,
             "sent": true,
             "returned": true
@@ -76,6 +83,7 @@ export const Orders = {
             "numberOfItems": "8",
             "price": "111.50",
             "date": "2022-01-11",
+            "time": "12:45:08 PM",
             "paid": false,
             "sent": false,
             "returned": false
