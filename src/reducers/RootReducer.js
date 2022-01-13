@@ -20,7 +20,8 @@ const initState = {
     chartTimePeriod: "currentWeek",
     chartType: "bar",
     extraDataSeries: true,
-    chartData: initChartData(Orders("Robert"))
+    chartData: initChartData(Orders("Robert")),
+    userLoggedIn: false
 }
 
 const rootReducer= (state=initState, action) => {
@@ -107,6 +108,11 @@ const rootReducer= (state=initState, action) => {
                 filterReturned: false,
                 activePage: 1,
                 chartData: initChartData(Orders(action.user))
+            }
+        case 'USER_LOGIN':
+            return{
+                ...state,
+                userLoggedIn: true
             }
         default:
             return{
@@ -210,9 +216,10 @@ function initChartData(orders){
             })
         }
     })
-    console.log(data)
+
     return data
 }
+
 const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) => {
     if(!filterPaid && !filterSent && !filterReturned){
         let id = 1

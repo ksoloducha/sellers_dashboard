@@ -5,7 +5,7 @@ export const Orders = (user) => {
     var threeWeeksInMilliseconds = 3 * 7 * 24 * 60 * 60 * 1000;
     var chance = new Chance(user);
 
-    for(var i = 0; i < 100; i++){
+    for(var i = 1; i < 101; i++){
         const order = {
             "id": i,
             "itemName": chance.country({full: true}) + " " + chance.word({syllables: 5}) + " " + chance.animal(),

@@ -34,5 +34,8 @@
     "chartType": "Chart type",
     "linear": "Linear",
     "bar": "Bar",
-    "isPreviousPeriodShown": "Show previous period"
+    "isPreviousPeriodShown": "Show previous period",
+    "login": "Login",
+    "password": "Password",
+    "loginButton": "Login"
   }

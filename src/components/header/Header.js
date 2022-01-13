@@ -26,17 +26,9 @@ const Header = (props) => {
         props.switchUser(user);
     }
 
-    return(
-        <Navbar 
-            bg = {props.themeVariables.navbarBg}
-            variant = {props.themeVariables.navbarBg}
-            expand = "lg"
-            sticky='top'
-        >
-            <Navbar.Brand className="brand">{t("dashboardTitle")}</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />            
-            <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end hello">
-                <Nav className="me-auto">
+    const renderHeader = props.userLogged === true ? 
+    (<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end hello">
+        <Nav className="me-auto">
                     <Nav.Link href='#orders'>{t("orders")}</Nav.Link>
                     <Nav.Link href='#selling_chart'>{t("chart")}</Nav.Link>
                     <Nav.Link>{t("quality")}</Nav.Link>
@@ -81,7 +73,40 @@ const Header = (props) => {
                         Czarek
                     </NavDropdown.Item>
                 </NavDropdown>
-            </Navbar.Collapse>
+                </Navbar.Collapse>
+    ) :
+    (<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end hello">
+            <NavDropdown 
+                    title={t("lang")} 
+                    id="basic-nav-dropdown"
+                    menuVariant = {props.themeVariables.navbarBg}
+                >
+                    <NavDropdown.Item onClick={() => changeLanguage('pl')}>
+                        Polski
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={() => changeLanguage('en')}>
+                        English
+                    </NavDropdown.Item>
+                </NavDropdown>
+                <img 
+                    src = {props.theme === 'light' ? moon : sun} 
+                    className='toggle-theme'
+                    onClick={handleThemeChange}
+                />
+    </Navbar.Collapse>
+)
+
+    return(
+        <Navbar 
+            bg = {props.themeVariables.navbarBg}
+            variant = {props.themeVariables.navbarBg}
+            expand = "lg"
+            sticky='top'
+        >
+            <Navbar.Brand className="brand">{t("dashboardTitle")}</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />            
+            {renderHeader}
         </Navbar>
     )
 }
@@ -91,7 +116,8 @@ const mapStateToProps = (state) => {
         theme: state.currentTheme,
         themeVariables: state.currentThemeVariables,
         ordersRef: state.ordersRef,
-        currentUser: state.currentUser
+        currentUser: state.currentUser,
+        userLogged: state.userLoggedIn
    }
 }
 
