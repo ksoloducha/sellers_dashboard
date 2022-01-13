@@ -14,7 +14,12 @@ const initState = {
     filterPaid: false,
     fiterSent: false,
     filterReturned: false,
-    activePage: 1
+    activePage: 1,
+    chartDataMeasure: "earnings",
+    chartTimePeriod: "currentWeek",
+    chartType: "bar",
+    extraDataSeries: true,
+    chartData: initChartData(Orders.ordersList)
 }
 
 const rootReducer= (state=initState, action) => {
@@ -57,7 +62,7 @@ const rootReducer= (state=initState, action) => {
                 filterPaid: false,
                 filterSent: false,
                 filterReturned: false,
-                orders: state.originalOrders,
+                orders: updateOrders(false, false, false, state.originalOrders),
                 activePage: 1
             }
         case 'SET_ORDERS_REF':
@@ -70,11 +75,130 @@ const rootReducer= (state=initState, action) => {
                 ...state,
                 activePage: action.activePage
             }
+        case 'SWITCH_CHART_DATA_MEASURE':
+            return{
+                ...state,
+                chartDataMeasure: action.dataMeasure
+            }
+        case 'CHENGE_CHART_TIME_PERIOD':
+            return{
+                ...state,
+                chartTimePeriod: action.timePeriod
+            }
+        case 'SWITCH_CHART_TYPE':
+            return{
+                ...state,
+                chartType: action.chartType
+            }
+        case 'SWITCH_EXTRA_DATA_SERIES_VISIBILITY':
+            return{
+                ...state,
+                extraDataSeries: action.extraDataSeries
+            }
         default:
             return{
                 ...state
             }
     }
+}
+
+function getDates(){
+    let now = new Date()
+    let d = new Date()
+    let day = now.getDay()
+    let diff = now.getDate() - day + (day === 0 ? -6 : 1)
+    let first = new Date(d.setDate(diff))
+    first.setDate(first.getDate() - 21)
+
+    let dates = []
+    while(first <= now){
+        dates.push({
+            "time": first.toISOString().split('T')[0],
+            "amount": 0
+        })
+        first.setDate(first.getDate() + 1)
+    }
+    return dates
+}
+
+function getHours(){
+    let today = new Date()
+    let yesterday = new Date()    
+    yesterday.setDate(yesterday.getDate() - 1)
+    yesterday.setHours(1, 0, 0, 0)
+    let hours = []
+    
+    for(let i = 0; i < 48; i++){
+        hours.push({            
+            "time": yesterday.toISOString().split('.')[0],
+            "amount": 0
+        })
+        yesterday.setHours(yesterday.getHours() + 1)
+    }
+
+    return hours
+}
+
+function initChartData(orders){
+
+    let data = {
+        data_byDays: {
+            earnings: [],
+            numberOfSoldItems: []
+        },
+        data_byHours: {
+            earnings: [],
+            numberOfSoldItems: []
+        }
+    }
+
+    data.data_byDays.earnings = getDates()
+    data.data_byDays.numberOfSoldItems = getDates()
+    data.data_byHours.earnings = getHours()
+    data.data_byHours.numberOfSoldItems = getHours()
+
+    let today = new Date()
+    let yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    orders.map((order) => {
+        let date = new Date(order.date)
+        let day = date.toISOString().split('T')[0]
+        let hour = order.time.split(":")[0]
+        let n = Number(order.numberOfItems)
+        let moneyEarned = n * order.price
+
+        data.data_byDays.earnings.find((dict) => {
+            if(dict["time"] === day){
+                dict["amount"] = Number(dict["amount"]) + moneyEarned;
+                return;
+            }
+        })
+        data.data_byDays.numberOfSoldItems.find((dict) => {
+            if(dict["time"] === day){
+                dict["amount"]  = Number(dict["amount"]) +  n;
+                return;
+            }
+        })
+        if(date.getDate() === yesterday.getDate() || date.getDate() === today.getDate()){
+            data.data_byHours.earnings.find((dict) => {
+                let dateInTable = new Date(dict["time"])
+                if(dateInTable.getHours() == hour && dateInTable.toISOString().split('T')[0] === date.toISOString().split('T')[0]){
+                    dict["amount"]  = Number(dict["amount"]) +  moneyEarned;
+                    return;
+                }
+            })
+            data.data_byHours.numberOfSoldItems.find((dict) => {
+                let dateInTable = new Date(dict["time"])
+                if(dateInTable.getHours() == hour && dateInTable.toISOString().split('T')[0] === date.toISOString().split('T')[0]){
+                    dict["amount"]  = Number(dict["amount"]) +  n;
+                    return;
+                }
+            })
+        }
+    })
+    console.log(data)
+    return data
 }
 
 const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) => {
