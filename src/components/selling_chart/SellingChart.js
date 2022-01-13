@@ -54,18 +54,20 @@ const SellingChart = (props) => {
         })
         data = filtered
     } 
-    console.log(data)
 
     const CustomTooltip = ({ active, payload, label }) => {
-
+        
         const time_label = props.chartTimePeriod === 'today' ? 'Time' : 'Date'
-        const time_value = props.chartTimePeriod === 'today' ? label.split('T')[1] : label
         const measure_label = props.chartDataMeasure === 'earnings' ? 'Earnings' : 'Sold items'
         const measure_prefix = props.chartDataMeasure === 'earnings' ? '$' : ''
         let measure_value
+        let time_value
         if(payload[0]){
             measure_value = props.chartDataMeasure === 'earnings' ? payload[0].value.toFixed(2) : payload[0].value
             measure_value = Number(measure_value)
+        }
+        if(label){
+            time_value = props.chartTimePeriod === 'today' ? label.split('T')[1] : label
         }
     
         if (active && payload && payload.length) {
@@ -99,7 +101,7 @@ const SellingChart = (props) => {
                     <XAxis dataKey="time" stroke={props.theme === 'light' ? 'black' : 'white'} />
                     <YAxis stroke={props.theme === 'light' ? 'black' : 'white'} />
                     <Tooltip content={<CustomTooltip />}/>
-                    <Bar dataKey="amount" fill={props.theme === 'light' ? "#1254B7" : '#6BE2F5'} />
+                    <Bar dataKey="amount" fill={props.theme === 'light' ? "#E6679B" : '#F57BAD'} />
                 </BarChart>
             </div>
         )
