@@ -12,18 +12,69 @@ const SellingChart = (props) => {
     const {t, i18n} = useTranslation();
     const { width, height } = useWindowDimensions();
 
-    const CustomTooltip = ({ active, payload, label }) => {
+    let data = props.chartTimePeriod === 'today' ? props.chartData.data_byHours : props.chartData.data_byDays
+    if(data === props.chartData.data_byHours){
+        data = props.chartDataMeasure === 'earnings' ? props.chartData.data_byHours.earnings : props.chartData.data_byHours.numberOfSoldItems
+        if(!props.extraDataSeries){
+            let today = new Date()
+            let filtered = []
+            data.forEach((d) => {
+                let date = new Date(d["time"])
+                if(date.toISOString().split('T')[0] === today.toISOString().split('T')[0]){
+                    filtered.push(d)
+                }
+            })
+            data = filtered
+        }    
+    } else {
+        data = props.chartDataMeasure === 'earnings' ? props.chartData.data_byDays.earnings : props.chartData.data_byDays.numberOfSoldItems
 
-        const time = props.chartTimePeriod === 'today' ? 'Time' : 'Date'
-        const measure = props.chartDataMeasure === 'earnings' ? 'Earnings' : 'Sold items'
+        let last = new Date()
+        let d = new Date()
+        let day = last.getDay()
+        let diff = last.getDate() - day + (day === 0 ? -6 : 1)
+        let first = new Date(d.setDate(diff))
+
+        if(props.chartTimePeriod === 'previousWeek'){
+            last.setDate(first.getDate() - 1)
+        }
+        last.setHours(23, 59, 59, 59)
+        
+        diff = props.chartTimePeriod === 'currentWeek' ? 0 : 7        
+        diff += props.extraDataSeries === true ? 7 : 0
+        first.setDate(first.getDate() - diff)
+        first.setHours(0, 0, 0, 0)
+
+        let filtered = []
+        data.forEach((d) => {
+            let date = new Date(d["time"])
+            if(date >= first && date <= last){
+                filtered.push(d)
+            }
+        })
+        data = filtered
+    } 
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        
+        const time_label = props.chartTimePeriod === 'today' ? 'Time' : 'Date'
+        const measure_label = props.chartDataMeasure === 'earnings' ? 'Earnings' : 'Sold items'
         const measure_prefix = props.chartDataMeasure === 'earnings' ? '$' : ''
-        const n = props.chartDataMeasure === 'earnings' ? 2 : 0
+        let measure_value
+        let time_value
+        if(payload[0]){
+            measure_value = props.chartDataMeasure === 'earnings' ? payload[0].value.toFixed(2) : payload[0].value
+            measure_value = Number(measure_value)
+        }
+        if(label){
+            time_value = props.chartTimePeriod === 'today' ? label.split('T')[1] : label
+        }
     
         if (active && payload && payload.length) {
             return (
             <div className="custom-tooltip">
-                <p className="label">{`${time} : ${label}`}</p>
-                <p className="label">{`${measure} : ${measure_prefix}${payload[0].value.toFixed(n)}`}</p>
+                <p className="label">{`${time_label} : ${time_value}`}</p>
+                <p className="label">{`${measure_label} : ${measure_prefix}${measure_value}`}</p>
             </div>
             );
         }
@@ -35,7 +86,7 @@ const SellingChart = (props) => {
         props.chartType === 'linear'
         ? (
             <div className='margin-row center' >
-                <LineChart width={width * 0.7} height={400} data={props.chartData.data_byDays.earnings}
+                <LineChart width={width * 0.7} height={400} data={data}
                 >
                     <XAxis dataKey="time" stroke={props.theme === 'light' ? 'black' : 'white'}/>
                     <YAxis stroke={props.theme === 'light' ? 'black' : 'white'} />
@@ -46,11 +97,11 @@ const SellingChart = (props) => {
         )
         : (
             <div className='margin-row center' >
-                <BarChart width={width * 0.7} height={400} data={props.chartData.data_byDays.earnings} >
+                <BarChart width={width * 0.7} height={400} data={data} >
                     <XAxis dataKey="time" stroke={props.theme === 'light' ? 'black' : 'white'} />
                     <YAxis stroke={props.theme === 'light' ? 'black' : 'white'} />
                     <Tooltip content={<CustomTooltip />}/>
-                    <Bar dataKey="amount" fill={props.theme === 'light' ? "#1254B7" : '#6BE2F5'} />
+                    <Bar dataKey="amount" fill={props.theme === 'light' ? "#E6679B" : '#F57BAD'} />
                 </BarChart>
             </div>
         )

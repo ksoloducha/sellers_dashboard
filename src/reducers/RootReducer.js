@@ -19,7 +19,7 @@ const initState = {
     chartDataMeasure: "earnings",
     chartTimePeriod: "currentWeek",
     chartType: "bar",
-    extraDataSeries: false,
+    extraDataSeries: true,
     chartData: initChartData(Orders("Robert"))
 }
 
@@ -135,13 +135,20 @@ function getDates(){
 }
 
 function getHours(){
+    let today = new Date()
+    let yesterday = new Date()    
+    yesterday.setDate(yesterday.getDate() - 1)
+    yesterday.setHours(1, 0, 0, 0)
     let hours = []
-    for(let i = 0; i < 24; i++){
-        hours.push({
-            "time": i < 10 ? '0' + i : i.toString(),
+    
+    for(let i = 0; i < 48; i++){
+        hours.push({            
+            "time": yesterday.toISOString().split('.')[0],
             "amount": 0
         })
+        yesterday.setHours(yesterday.getHours() + 1)
     }
+
     return hours
 }
 
@@ -153,19 +160,15 @@ function initChartData(orders){
             numberOfSoldItems: []
         },
         data_byHours: {
-            earnings_yesterday: [],
-            earnings_today: [],
-            numberOfSoldItems_yesterday: [],
-            numberOfSoldItems_today: []
+            earnings: [],
+            numberOfSoldItems: []
         }
     }
 
     data.data_byDays.earnings = getDates()
     data.data_byDays.numberOfSoldItems = getDates()
-    data.data_byHours.earnings_yesterday = getHours()
-    data.data_byHours.earnings_today = getHours()
-    data.data_byHours.numberOfSoldItems_yesterday = getHours()
-    data.data_byHours.numberOfSoldItems_today = getHours()
+    data.data_byHours.earnings = getHours()
+    data.data_byHours.numberOfSoldItems = getHours()
 
     let today = new Date()
     let yesterday = new Date()
@@ -175,52 +178,41 @@ function initChartData(orders){
         let date = new Date(order.date)
         let day = date.toISOString().split('T')[0]
         let hour = order.time.split(":")[0]
-        let n = order.numberOfItems
+        let n = Number(order.numberOfItems)
         let moneyEarned = n * order.price
 
         data.data_byDays.earnings.find((dict) => {
             if(dict["time"] === day){
-                dict["amount"] += moneyEarned;
+                dict["amount"] = Number(dict["amount"]) + moneyEarned;
                 return;
             }
         })
         data.data_byDays.numberOfSoldItems.find((dict) => {
             if(dict["time"] === day){
-                dict["amount"] += n;
+                dict["amount"]  = Number(dict["amount"]) +  n;
                 return;
             }
         })
-        if(date.getDate() === yesterday.getDate()){
-            data.data_byHours.earnings_yesterday.find((dict) => {
-                if(dict["time"] === hour){
-                    dict["amount"] += moneyEarned;
+        if(date.getDate() === yesterday.getDate() || date.getDate() === today.getDate()){
+            data.data_byHours.earnings.find((dict) => {
+                let dateInTable = new Date(dict["time"])
+                if(dateInTable.getHours() == hour && dateInTable.toISOString().split('T')[0] === date.toISOString().split('T')[0]){
+                    dict["amount"]  = Number(dict["amount"]) +  moneyEarned;
                     return;
                 }
             })
-            data.data_byHours.numberOfSoldItems_yesterday.find((dict) => {
-                if(dict["time"] === hour){
-                    dict["amount"] += n;
-                    return;
-                }
-            })
-        } else if(date.getDate() === today.getDate()){
-            data.data_byHours.earnings_today.find((dict) => {
-                if(dict["time"] === hour){
-                    dict["amount"] += moneyEarned;
-                    return;
-                }
-            })
-            data.data_byHours.numberOfSoldItems_today.find((dict) => {
-                if(dict["time"] === hour){
-                    dict["amount"] += n;
+            data.data_byHours.numberOfSoldItems.find((dict) => {
+                let dateInTable = new Date(dict["time"])
+                if(dateInTable.getHours() == hour && dateInTable.toISOString().split('T')[0] === date.toISOString().split('T')[0]){
+                    dict["amount"]  = Number(dict["amount"]) +  n;
                     return;
                 }
             })
         }
     })
+    console.log(data)
     return data
 }
-
 const updateOrders = (filterPaid, filterSent, filterReturned, originalOrders) => {
     if(!filterPaid && !filterSent && !filterReturned){
         let id = 1
