@@ -20,7 +20,7 @@ const initState = {
     chartTimePeriod: "currentWeek",
     chartType: "bar",
     extraDataSeries: false,
-    chartData: initChartData(Orders.ordersList)
+    chartData: initChartData(Orders("Robert"))
 }
 
 const rootReducer= (state=initState, action) => {
@@ -101,11 +101,12 @@ const rootReducer= (state=initState, action) => {
                 ...state,
                 currentUser: action.user,
                 originalOrders: Orders(action.user),
-                orders: updateOrders(state.filterPaid, state.filterSent, action.filterReturned, state.originalOrders),
+                orders: updateOrders(false, false, false, Orders(action.user)),
                 filterPaid: false,
                 filterSent: false,
                 filterReturned: false,
-                activePage: 1
+                activePage: 1,
+                chartData: initChartData(Orders(action.user))
             }
         default:
             return{
