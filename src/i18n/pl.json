@@ -34,5 +34,8 @@
     "chartType": "Typ wykresu",
     "linear": "Liniowy",
     "bar": "Słupkowy",
-    "isPreviousPeriodShown": "Pokaż poprzedni okres"
+    "isPreviousPeriodShown": "Pokaż poprzedni okres",
+    "login": "Login",
+    "password": "Hasło",
+    "loginButton": "Zaloguj się"
   }

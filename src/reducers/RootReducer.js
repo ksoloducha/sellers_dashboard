@@ -9,8 +9,9 @@ const initState = {
         'light': lightTheme,
         'dark': darkTheme
     },
-    originalOrders: Orders.ordersList,
-    orders: Orders.ordersList,
+    currentUser: "Robert",
+    originalOrders: Orders("Robert"),
+    orders: Orders("Robert"),
     filterPaid: false,
     fiterSent: false,
     filterReturned: false,
@@ -19,7 +20,8 @@ const initState = {
     chartTimePeriod: "currentWeek",
     chartType: "bar",
     extraDataSeries: true,
-    chartData: initChartData(Orders.ordersList)
+    chartData: initChartData(Orders("Robert")),
+    userLoggedIn: false
 }
 
 const rootReducer= (state=initState, action) => {
@@ -94,6 +96,23 @@ const rootReducer= (state=initState, action) => {
             return{
                 ...state,
                 extraDataSeries: action.extraDataSeries
+            }
+        case 'SWITCH_USER':
+            return{
+                ...state,
+                currentUser: action.user,
+                originalOrders: Orders(action.user),
+                orders: updateOrders(false, false, false, Orders(action.user)),
+                filterPaid: false,
+                filterSent: false,
+                filterReturned: false,
+                activePage: 1,
+                chartData: initChartData(Orders(action.user))
+            }
+        case 'USER_LOGIN':
+            return{
+                ...state,
+                userLoggedIn: true
             }
         default:
             return{
@@ -197,7 +216,7 @@ function initChartData(orders){
             })
         }
     })
-    console.log(data)
+
     return data
 }
 
